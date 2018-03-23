@@ -8,7 +8,9 @@
   "scripts": {
     "lint": "eslint \"src/**/*.js\"",
     "lint-fix": "eslint \"src/**/*.js\" --fix",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "webpack --config ./webpack.config.js",
+    "start": "webpack-dev-server --config ./webpack.config.js --host 0.0.0.0"
   },
   "devDependencies": {
     "babel": "^6.23.0",
@@ -32,6 +34,7 @@
     "sass-loader": "^6.0.7",
     "style-loader": "^0.20.3",
     "webpack": "^4.1.1",
+    "webpack-cli": "^2.0.12",
     "webpack-dev-server": "^3.1.1"
   },
   "dependencies": {
