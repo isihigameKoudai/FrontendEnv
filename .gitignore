@@ -1,5 +1,4 @@
 node_modules/
-dest/
 build/
 temp/
 .ds_store
