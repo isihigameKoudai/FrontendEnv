@@ -215,7 +215,7 @@ dest/index.html
 ```
 
 ### webpackの起動
-以下、コマンドでブラウザ内でhttp://localhost:8080/にアクセスしてみて、Hello worldのメッセージが出れば完成です。
+以下、コマンドでブラウザ内でhttp://localhost:8080/ にアクセスしてみて、Hello worldのメッセージが出れば完成です。
 ```
 yarn start
 ```
