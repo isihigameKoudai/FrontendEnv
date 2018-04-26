@@ -2,3 +2,4 @@ node_modules/
 build/
 temp/
 .ds_store
+yarn-error.log
