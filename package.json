@@ -45,8 +45,10 @@
     "eslint-plugin-import": "^2.9.0",
     "eslint-plugin-jsx-a11y": "^6.0.3",
     "eslint-plugin-prettier": "^2.6.0",
+    "eslint-plugin-react": "^7.7.0",
     "flow-bin": "^0.71.0",
     "flowtype": "^2.0.0",
+    "hoek": "^5.0.3",
     "node-sass": "^4.7.2",
     "prettier": "^1.11.1",
     "sass-loader": "^7.0.1",
@@ -56,8 +58,6 @@
     "webpack-dev-server": "^3.1.1"
   },
   "dependencies": {
-    "babel-polyfill": "^6.26.0",
-    "eslint-plugin-react": "^7.7.0",
-    "hoek": "^5.0.3"
+    "babel-polyfill": "^6.26.0"
   }
 }
