@@ -61,6 +61,42 @@ insert_final_newline = true
 trim_trailing_whitespace = false
 ```
 
+### flowtypeの設定
+flowtypeは変数に肩の指定がいらない世界のjavascriptに型を導入することで、コード内の変数の値の型をチェックすることができます。
+最初にflowtypeで使用するパッケージを導入します。
+```
+yanr add dev flowtype flow-bin babel-plugin-transform-flow-strip-types
+```
+次に以下のコマンドで.flowconfigのファイルを生成します。
+```
+flow init
+```
+次に.flowconfigのファイルを編集します。
+```
+[ignore]
+.*/node_modules/.*
+.*/dest/.*
+
+[include]
+
+[libs]
+./src
+
+[lints]
+
+[options]
+```
+それに合わせて、package.jsonの内容も編集します。
+```
+// scriptsに記述
+"flow": "$(npm bin)/flow",
+
+// babelに記述
+"plugins": [
+ "babel-plugin-transform-flow-strip-types"
+ ]
+```
+
 ### ES6とESLintとPrettier
 ES6(ECMAscript)と呼ばれる新しいタイプのjavascriptが使えるようにします。
 ESLintを使うとコードの一貫性を保つことができたり、潜在的なエラーを見つけ出したりととても便利です。
