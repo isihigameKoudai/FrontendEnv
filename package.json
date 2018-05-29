@@ -10,8 +10,9 @@
     "lint-fix": "eslint \"src/**/*.js\" --fix",
     "flow": "$(npm bin)/flow",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "webpack --config ./webpack.config.js",
-    "start": "webpack-dev-server --config ./webpack.config.js --host 0.0.0.0"
+    "dev": "webpack-dev-server --config ./webpack.config.js --hot --host 0.0.0.0",
+    "build": "webpack --config ./webpack.config.js --env.production -p",
+    "start": "webpack-dev-server --config ./webpack.config.js --env.production --host 0.0.0.0"
   },
   "babel": {
     "presets": [
