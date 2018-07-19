@@ -1,11 +1,15 @@
 const path = require('path');
+const webpack = require('webpack');
+
+const BUILD_ROOT = path.join(__dirname, '../dest');
+const SRC_ROOT = path.join(__dirname, '../src');
 
 module.exports = {
-  mode: 'development',
+  context: SRC_ROOT,
   entry: path.resolve('src', 'index.js'),
   output: {
     filename: 'bundle.js',
-    path: path.join(__dirname, 'dest/')
+    path: BUILD_ROOT
   },
   module: {
     rules: [
@@ -33,8 +37,5 @@ module.exports = {
     alias: {
       vue$: 'vue/dist/vue.esm.js'
     }
-  },
-  devServer: {
-    contentBase: 'dest'
   }
 };
