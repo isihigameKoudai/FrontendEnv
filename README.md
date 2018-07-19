@@ -1,9 +1,8 @@
-# FrontendEnv
+# FrontEndEnv vue-starter
 
 ## 概要
-モダンなjsが動作するフロントエンドエンジニア向けの開発環境です。
-React.jsやVue.jsなどを任意で導入し、試すことも簡単にできます。
-Node.jsが導入されていることが前提なので、Node.jsとパッケージマネージャ(npmまたはyarn)を導入しましょう。
+FrontEndEnvのmasterの内容をベースにVue+Vuex+Vue-routerが動くスターターキットになります。
+ディレクトリ構成はAtomic Designを参考に作っています。
 
 ## 使用方法
 git cloneしたらディレクトリ内で以下のコマンドを打つと使えます。
@@ -13,253 +12,232 @@ yarn start
 ```
 
 ## 環境構築
-### 作業ディレクトリ作成
+### FrontEndEnvのクローン
+FrontEndEnvを元にしてVue.jsの環境を作って行きます。
+git cloneした直後は作業ディレクトリ名が「FrontEndEnv」になっていますので、任意で名前を変更して構いません。
+
 ```
-mkdir [workspace-name]
-cd [workspace-name]
+git clone git@github.com:isihigameKoudai/FrontEndEnv.git
+cd FrontEndEnv
 ```
 
-### gitとnpmの初期化
-git initでgitリポジトリとして扱えるようになります。
-yarn initではそのプロダクトの情報を聞かれ、最終的にはpackage.jsonと呼ばれるディレクトリ内でのパッケージやコマンドを管理するファイルが生成されます。
+### パッケージの準備
+vueとvuexを動かす為にパッケージを導入します。
 ```
-git init
-yarn init
+yarn add vue vuex vue-router
 ```
 
-### gitignoreとeditorconfigの追加
-gitignoreは指定したファイルをgitの管理下から除外するためのものです。
-editorconfigはいろんなエディタ間でのルール（インデントやタブ・スペースなど）を統一させるファイルです。
+### webpack/base.config.jsの編集
+
+vue-loaderのv15からpluginsの設定が必要になります。   
+```const VueLoaderPlugin = require('vue-loader/lib/plugin')```
+で取り込み、   
+```plugins: [new VueLoaderPlugin()]```を追加します。
+
+modulesのrulesに以下の内容を記述
 ```
-touch .gitignore
-touch .editorconfig
+{
+  test: /\.vue$/,
+  loader: 'vue-loader',
+},
+{
+  test: /\.(css)$/,
+  use: ['vue-style-loader', 'css-loader']
+},
+{
+  test: /\.(scss|sass)$/,
+  use: ['vue-style-loader', 'css-loader', 'sass-loader']
+},
 ```
-.gitignore
+拡張子の名前解決するため、resolveのextensionsにvueを追加する
 ```
-node_modules/
-build/
-temp/
-.ds_store
+[".js", ".vue"]
 ```
 
-.editorconfig
-```
-root = true
+### 各ファイルの準備
+FrontEndEnv/src/index.jsとFrontEndEnv/src/App.vueを準備します。
+もともとあるfoo.jsは使わないので削除して構いません。
 
+App.vue
+```
+<template>
+  <div class="g-content">
+    <h1>{{title}}</h1>
+    <input 
+      type="text" 
+      v-model="message" 
+    />
+    <p>input message=> {{message}}</p>
+    <input 
+      type="button"
+      value="DEVELOP"
+      @click="commitModeToDev"
+    />
+    <input 
+      type="button"
+      value="PRODUCT"
+      @click="commitModeToPro"
+    />
+    <p>mode=>{{mode}}</p>
+  </div>
+</template>
+<script>
+import {mapState, mapMutations, mapActions} from 'vuex';
 
-[*]
-
-indent_style = tab
-indent_size = 2
-
-end_of_line = lf
-charset = utf-8
-trim_trailing_whitespace = true
-insert_final_newline = true
-
-[*.md]
-trim_trailing_whitespace = false
-```
-
-### flowtypeの設定
-flowtypeは変数に肩の指定がいらない世界のjavascriptに型を導入することで、コード内の変数の値の型をチェックすることができます。
-最初にflowtypeで使用するパッケージを導入します。
-```
-yanr add dev flowtype flow-bin babel-plugin-transform-flow-strip-types
-```
-次に以下のコマンドで.flowconfigのファイルを生成します。
-```
-flow init
-```
-次に.flowconfigのファイルを編集します。
-```
-[ignore]
-.*/node_modules/.*
-.*/dest/.*
-
-[include]
-
-[libs]
-./src
-
-[lints]
-
-[options]
-```
-それに合わせて、package.jsonの内容も編集します。
-```
-// scriptsに記述
-"flow": "$(npm bin)/flow",
-
-// babelに記述
-"plugins": [
- "babel-plugin-transform-flow-strip-types"
- ]
-```
-
-### ES6とESLintとPrettier
-ES6(ECMAscript)と呼ばれる新しいタイプのjavascriptが使えるようにします。
-ESLintを使うとコードの一貫性を保つことができたり、潜在的なエラーを見つけ出したりととても便利です。
-prettierでコードを自動的に適切な形にフォーマットしてくれます。
-ちなみにエディタでprettierとESLintの設定も必要です
-```
-yarn add --dev eslint eslint-plugin-import eslint-config-airbnb-base prettier eslint-config-prettier eslint-plugin-prettier
-```
-こちらも追加で導入しましょう。
-```
-yarn add --dev eslint-config-airbnb eslint-plugin-flowtype eslint-plugin-import eslint-plugin-jsx-a11y
-```
-.eslintrc.jsのファイルに以下を記述します
-```
-module.exports = {
-    "parser": "babel-eslint",
-    "extends": [
-      "airbnb",
-      "prettier",
-      "plugin:flowtype/recommended"
-    ],
-    "plugins": [
-      "prettier"
-    ],
-    "rules": {
-      "prettier/prettier": ["error", {
-        "singleQuote": true,
-        "bracketSpacing": true,
-        "jsxBracketSameLine": true
-      }]
+export default {
+  data() {
+    return {
+      title: 'Welcome to Vue world',
+      message:''
     }
-  };
-```
-Lint用のショートカットコマンドをpackage.json内のscriptsに追加します。
-```
-"lint": "eslint \"src/**/*.js\"",
-"lint-fix": "eslint \"src/**/*.js\" --fix",
-```
-
-### babelの設定
-javacsriptの新しい書き方は、ブラウザによって認識されない場合があるので認識できる形にトランスパイルしてくれる便利屋さんがbabel。
-```
-yarn add --dev babel babel-core babel-eslint babel-loader babel-preset-env babel-preset-stage2
-```
-
-### webpackの設定
-webpackは指定したディレクトリ内のリソース（jsファイルやimg,cssなど）をひとまとめにし、実行時に単一ファイルとして書き出してくれる。
-webpack-dev-serverで開発用サーバーを立ち上げブラウザすぐに確認することもできる。
-```
-yarn add --dev webpack webpack-dev-server webpack-cli
-```
-webpack.config.jsの編集
-```
-const path = require('path');
-
-module.exports = {
-  mode: 'development',
-  entry: [
-    'babel-polyfill',
-    path.resolve('src', 'index.js')
-  ],
-  output: {
-    filename: 'bundle.js',
-    path: path.join(__dirname, 'dest/')
   },
-  module: {
-    rules: [
-      {
-        test: /\.js$/,
-        exclude: /node_modules/,
-        loader: 'babel-loader',
-      },
-    ]
-  },
-  resolve: {
-    extensions: ['.js','json','jsx'],
-    alias: {
-      vue$: 'vue/dist/vue.esm.js',
-    },
-  },
-  devServer: {
-    contentBase: 'dest',
-  },
-};
-```
-
-cssやその他ファイルも読めるようにしましょう。
-```
-yarn add --dev node-sass css-loader sass-loader style-loader url-loader
-```
-webpack.config.jsのrulesにloaderを追記しましょう。
-```
-{
-  test: /\.(css|sass|scss)$/,
-  loader: 'sass-loader',
-  options: {
-    outputStyle: 'expanded',
-    sourceMap: true,
-  },
-},
-{
-  test: /\.(jpg|png|json|svg)$/,
-  loaders: 'url-loader'
-},
-```
-webpackのショートカットコマンドが使えるようにするため、package.jsonのscriptsに以下のコードを追加します。
-```
-"test": "echo \"Error: no test specified\" && exit 1",
-"build": "webpack --config ./webpack.config.js",
-"start": "webpack-dev-server --config ./webpack.config.js --host 0.0.0.0"
-```
-babel-polyfillのインストール
-```
-yarn add babel-polyfill
-```
-
-### コンテンツの準備
-ソース用と公開用ディレクトリの作成
-```
-mkdir src //ソース用
-mkdir dest //公開用
-```
-
-src/index.js
-```
-import 'babel-polyfill'
-import foo from './foo.js'
-
-foo();
-```
-
-src/foo.js
-```
-export default function foo() {
-    document.getElementById('app').innerHTML = "Hello world";
+  computed: mapState(["mode"]),
+  methods: mapMutations(["commitModeToDev","commitModeToPro"])
 }
+</script>
+<style lang="scss" scoped>
+.g-content {
+  background-color: #eee;
+  .title {
+    font-size: 24px;
+    font-weight: bold;
+  }
+}
+</style>
+```
+vueファイルの中はtemplate,script,styleの三部構成になておりtemplate内ではhtmlやcssがそのまま記述できます。
+styleはlangを指定することでsass/scss,lessなどを使うことも出来ます。また、scopedを指定するとグローバル汚染しないcssを書くことも可能です。
+
+index.js
+```
+import 'babel-polyfill';
+
+import Vue from 'vue';
+import Vuex from 'vuex';
+
+import App from './App.vue';
+import store from './store';
+import route from './route';
+
+Vue.use(Vuex);
+
+new Vue({
+  el:'#app',
+  store: store,
+  router: route,
+  render: h => h(App)
+});
+
+```
+vueコンポーネントの取り込みとvuexとの結合を行います。
+
+store/index.jsの追加
+vuexの中核となるstoreのファイルを記述します。
+```
+import Vue from "vue";
+import Vuex from "vuex";
+
+Vue.use(Vuex);
+
+const state = {
+  mode: ''
+};
+
+//Mutaions is synchronous only methods to change state values.
+const mutations = {
+  commitModeToDev(state,payload) {
+    state.mode = 'devlopment';
+  },
+  commitModeToPro(state,payload) {
+    state.mode = 'production'; 
+  }
+};
+
+//Actions is methods includes asynchronous processes.
+//and commit mutations.
+const actions = {
+  getSomething({commit},payload) {
+    const num1 = 1;
+    const num = 2;
+  },
+  updateModeDev({commit},payload) {
+    commit('commitModeToDev',payload);
+  },
+  updateModePro({commit},payload) {
+    commit('commitModeToPro',payload);
+  }
+};
+
+export default new Vuex.Store({
+  state: state,
+  mutations: mutations,
+  actions: actions
+});
 ```
 
-dest/index.html
-```
-<!DOCTYPE html>
-<html lang="ja">
-  <head>
-    <meta charset="UTF-8">
-    <title>Frontend Env App</title>
-  </head>
-  <body>
-    <div id="app"></div>
-    <script src="/bundle.js"></script>
-  </body>
-</html>
-```
-
-### webpackの起動
-以下、コマンドでブラウザ内でhttp://localhost:8080/ にアクセスしてみて、Hello worldのメッセージが出れば完成です。
+### 起動
+次のコマンドでブラウザ上でhttp://localhost:8080/ にアクセスしてみて、「Welcome to Vue world」などが出ればOK。
 ```
 yarn start
 ```
 
-### 参考URL
-https://github.com/masakitm/vue-nocli  
-https://github.com/nabepon/frontend/tree/env-setup-tutorial  
-https://ics.media/entry/12140  
-https://www.kken.io/posts/prettier-eslint/  
+### おまけ(Vue-Router)
+vue内で様々なリソースにURLを割り当てることで、直接そのリソースにアクセス出来るようVue-Routerを設定します。  
+あらかじめpagesディレクトリに各ページのコンポーネントファイルを置いておきます。今回の場合だと「../pages/top」「../pages/about」が該当します。
 
-上記の記事を参考にさせていただきました。ありがとうございます！
+route/index.js
+
+```
+import VueRouter from 'vue-router';
+import Top from '../pages/top';
+import About from '../pages/about';
+
+const routes = [
+  {
+    path: '/',
+    component: Top
+  },
+  {
+    path: '/about',
+    component: About
+  },
+];
+
+export default new VueRouter({
+  routes,
+});
+```
+
+App.js
+ルートのtemplateでルーティングのアクセスとそれに伴うビューの表示を行います。  
+router-linkがアクセスする部分で、router-viewがroute/index.jsに紐づけられたコンポーネントを表示する部分です。
+```
+<template>
+  <div class="g-content">
+    <h2 class="title">Welcome to Vue world</h2>
+    <router-link to="/">Top</router-link>
+    <router-link to="/about">About</router-link>
+    <p>RouterView↓↓↓</p>
+    <router-view></router-view>
+  </div>
+</template>
+```
+
+index.js
+インデックスファイルに以下の記述を追記します。
+```
+import VueRouter from 'vue-router';
+import route from './route';
+
+Vue.use(VueRouter);
+
+new Vue({
+  el:'#app',
+  store: store,
+  router: route, 
+  render: h => h(App)
+});
+
+```
+### 起動
+この状態で、「yarn start」で起動すると「/」に該当するコンポーネントが表示されます。
