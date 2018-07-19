@@ -1,7 +1,7 @@
 {
-  "name": "_FRONTEND_ENV",
+  "name": "frontend_env",
   "version": "1.0.0",
-  "description": "Front-end env based on webpack",
+  "description": "FrontEndEnv based on webpack",
   "main": "index.js",
   "author": "Koudai ishigame",
   "license": "MIT",
@@ -13,21 +13,6 @@
     "dev": "webpack-dev-server --config ./webpack.config.js --hot --host 0.0.0.0",
     "build": "webpack --config ./webpack.config.js --env.production -p",
     "start": "webpack-dev-server --config ./webpack.config.js --env.production --host 0.0.0.0"
-  },
-  "babel": {
-    "presets": [
-      [
-        "env",
-        {
-          "targets": {
-            "node": "6.10"
-          }
-        }
-      ]
-    ],
-    "plugins": [
-      "babel-plugin-transform-flow-strip-types"
-    ]
   },
   "devDependencies": {
     "babel": "^6.23.0",
