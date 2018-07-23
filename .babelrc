@@ -1,14 +1,15 @@
 {
 	"presets": [
+		"@babel/preset-react",
 		[
-			"env", 
+			"@babel/preset-env",
 			{
 				"targets": {
 					"browsers": [
 						"last 2 versions",
 						"ie >= 9",
 						"safari >= 7",
-						"iOS >= 8",
+						"iOS >= 10",
 						"Android >= 4.1"
 					],
 					"node": "current"
@@ -17,6 +18,7 @@
 		]
 	],
 	"plugins": [
-		"babel-plugin-transform-flow-strip-types"
+		"babel-plugin-transform-flow-strip-types",
+		"transform-object-rest-spread"
 	]
 }

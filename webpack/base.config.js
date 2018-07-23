@@ -6,7 +6,7 @@ const SRC_ROOT = path.join(__dirname, '../src');
 
 module.exports = {
   context: SRC_ROOT,
-  entry: path.resolve('src', 'index.js'),
+  entry: ['babel-polyfill', path.resolve('src', 'index.js')],
   output: {
     filename: 'bundle.js',
     path: BUILD_ROOT
@@ -16,7 +16,20 @@ module.exports = {
       {
         test: /\.js$/,
         exclude: /node_modules/,
-        loader: 'babel-loader'
+        use: {
+          loader: 'babel-loader',
+          options: {
+            presets: ['@babel/preset-env']
+          }
+        }
+      },
+      {
+        test: /\.jsx$/,
+        loader: 'babel-loader',
+        exclude: /node_modules/,
+        query: {
+          presets: ['es2015', 'react']
+        }
       },
       {
         test: /\.(css|sass|scss)$/,

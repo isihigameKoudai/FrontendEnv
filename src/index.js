@@ -1,4 +1,7 @@
-import 'babel-polyfill';
-import foo from './foo.js';
+import React from 'react';
+import ReactDOM from 'react-dom';
 
-foo();
+import App from './App';
+
+const app = document.getElementById('app');
+ReactDOM.render( <App /> ,app);
