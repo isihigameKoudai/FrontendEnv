@@ -2,8 +2,8 @@ import 'babel-polyfill';
 import React from 'react';
 import {Route, Switch, Link } from 'react-router-dom';
 
-import Top from './pages/top';
-import About from './pages/about';
+import Top from './containers/Top';
+import About from './containers//About';
 
 const App = () => (
   <div>
