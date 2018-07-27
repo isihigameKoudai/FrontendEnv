@@ -4,6 +4,7 @@
 モダンなjsが動作するフロントエンドエンジニア向けの開発環境です。
 React.jsやVue.jsなどを任意で導入し、試すことも簡単にできます。
 Node.jsが導入されていることが前提なので、Node.jsとパッケージマネージャ(npmまたはyarn)を導入しましょう。
+別ブランチ(react-starter,vue-starter)では、それぞれReact+Redux+React-Routerのスターターキット、Vue+Vuex+Vue-Routerのスターターキットを作っています。
 
 ## 使用方法
 git cloneしたらディレクトリ内で以下のコマンドを打つと使えます。
