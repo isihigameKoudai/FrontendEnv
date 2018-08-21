@@ -1,50 +1,20 @@
 {
-  "name": "frontend_env",
+  "name": "html-starter",
   "version": "1.0.0",
-  "description": "FrontEndEnv based on webpack",
-  "main": "index.js",
-  "author": "Koudai ishigame",
-  "license": "MIT",
+  "description": "",
+  "main": "index.html",
   "scripts": {
-    "lint": "eslint \"src/**/*.js\"",
-    "lint-fix": "eslint \"src/**/*.js\" --fix",
-    "flow": "$(npm bin)/flow",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "webpack-dev-server --config ./webpack/dev.config.js --hot",
-    "build": "webpack --config ./webpack/prod.config.js",
-    "start": "webpack-dev-server --config ./webpack/prod.config.js --host 0.0.0.0"
+    "dev": "http-server"
   },
-  "devDependencies": {
-    "babel": "^6.23.0",
-    "babel-core": "^6.26.0",
-    "babel-eslint": "^8.2.2",
-    "babel-loader": "^7.1.4",
-    "babel-plugin-transform-flow-strip-types": "^6.22.0",
-    "babel-preset-env": "^1.6.1",
-    "babel-preset-stage-2": "^6.24.1",
-    "css-loader": "^0.28.10",
-    "eslint": "^4.18.2",
-    "eslint-config-airbnb": "^16.1.0",
-    "eslint-config-airbnb-base": "^12.1.0",
-    "eslint-config-prettier": "^2.9.0",
-    "eslint-plugin-flowtype": "^2.46.1",
-    "eslint-plugin-import": "^2.9.0",
-    "eslint-plugin-jsx-a11y": "^6.0.3",
-    "eslint-plugin-prettier": "^2.6.0",
-    "eslint-plugin-react": "^7.7.0",
-    "flow-bin": "^0.71.0",
-    "flowtype": "^2.0.0",
-    "hoek": "^5.0.3",
-    "node-sass": "^4.7.2",
-    "prettier": "^1.11.1",
-    "sass-loader": "^7.0.1",
-    "style-loader": "^0.21.0",
-    "webpack": "^4.1.1",
-    "webpack-cli": "^2.0.12",
-    "webpack-dev-server": "^3.1.1",
-    "webpack-merge": "^4.1.3"
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/isihigameKoudai/FrontendEnv.git"
   },
-  "dependencies": {
-    "babel-polyfill": "^6.26.0"
-  }
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/isihigameKoudai/FrontendEnv/issues"
+  },
+  "homepage": "https://github.com/isihigameKoudai/FrontendEnv#readme"
 }
