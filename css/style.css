@@ -1,3 +1,7 @@
+* {
+	box-sizing: border-box;
+}
+
 .wrap {
 	width: 960px;
 	margin-left: auto;
