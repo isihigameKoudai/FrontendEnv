@@ -1,20 +1,25 @@
 # FrontEndEnv vue-starter
 
 ## 概要
-FrontEndEnvのmasterの内容をベースにVue+Vuex+Vue-routerが動くスターターキットになります。
-ディレクトリ構成はAtomic Designを参考に作っています。
+
+FrontEndEnv の master の内容をベースに Vue+Vuex+Vue-router が動くスターターキットになります。
+ディレクトリ構成は Atomic Design を参考に作っています。
 
 ## 使用方法
-git cloneしたらディレクトリ内で以下のコマンドを打つと使えます。
+
+git clone したらディレクトリ内で以下のコマンドを打つと使えます。
+
 ```
 yarn install
 yarn start
 ```
 
 ## 環境構築
-### FrontEndEnvのクローン
-FrontEndEnvを元にしてVue.jsの環境を作って行きます。
-git cloneした直後は作業ディレクトリ名が「FrontEndEnv」になっていますので、任意で名前を変更して構いません。
+
+### FrontEndEnv のクローン
+
+FrontEndEnv を元にして Vue.js の環境を作って行きます。
+git clone した直後は作業ディレクトリ名が「FrontEndEnv」になっていますので、任意で名前を変更して構いません。
 
 ```
 git clone git@github.com:isihigameKoudai/FrontEndEnv.git
@@ -22,19 +27,22 @@ cd FrontEndEnv
 ```
 
 ### パッケージの準備
-vueとvuexを動かす為にパッケージを導入します。
+
+vue と vuex を動かす為にパッケージを導入します。
+
 ```
 yarn add vue vuex vue-router
 ```
 
-### webpack/base.config.jsの編集
+### webpack/base.config.js の編集
 
-vue-loaderのv15からpluginsの設定が必要になります。   
-```const VueLoaderPlugin = require('vue-loader/lib/plugin')```
-で取り込み、   
-```plugins: [new VueLoaderPlugin()]```を追加します。
+vue-loader の v15 から plugins の設定が必要になります。  
+`const VueLoaderPlugin = require('vue-loader/lib/plugin')`
+で取り込み、  
+`plugins: [new VueLoaderPlugin()]`を追加します。
 
-modulesのrulesに以下の内容を記述
+modules の rules に以下の内容を記述
+
 ```
 {
   test: /\.vue$/,
@@ -49,31 +57,35 @@ modulesのrulesに以下の内容を記述
   use: ['vue-style-loader', 'css-loader', 'sass-loader']
 },
 ```
-拡張子の名前解決するため、resolveのextensionsにvueを追加する
+
+拡張子の名前解決するため、resolve の extensions に vue を追加する
+
 ```
 [".js", ".vue"]
 ```
 
 ### 各ファイルの準備
-FrontEndEnv/src/index.jsとFrontEndEnv/src/App.vueを準備します。
-もともとあるfoo.jsは使わないので削除して構いません。
+
+FrontEndEnv/src/index.js と FrontEndEnv/src/App.vue を準備します。
+もともとある foo.js は使わないので削除して構いません。
 
 App.vue
+
 ```
 <template>
   <div class="g-content">
     <h1>{{title}}</h1>
-    <input 
-      type="text" 
-      v-model="message" 
+    <input
+      type="text"
+      v-model="message"
     />
     <p>input message=> {{message}}</p>
-    <input 
+    <input
       type="button"
       value="DEVELOP"
       @click="commitModeToDev"
     />
-    <input 
+    <input
       type="button"
       value="PRODUCT"
       @click="commitModeToPro"
@@ -105,10 +117,12 @@ export default {
 }
 </style>
 ```
-vueファイルの中はtemplate,script,styleの三部構成になておりtemplate内ではhtmlやcssがそのまま記述できます。
-styleはlangを指定することでsass/scss,lessなどを使うことも出来ます。また、scopedを指定するとグローバル汚染しないcssを書くことも可能です。
+
+vue ファイルの中は template,script,style の三部構成になており template 内では html や css がそのまま記述できます。
+style は lang を指定することで sass/scss,less などを使うことも出来ます。また、scoped を指定するとグローバル汚染しない css を書くことも可能です。
 
 index.js
+
 ```
 import 'babel-polyfill';
 
@@ -129,10 +143,12 @@ new Vue({
 });
 
 ```
-vueコンポーネントの取り込みとvuexとの結合を行います。
 
-store/index.jsの追加
-vuexの中核となるstoreのファイルを記述します。
+vue コンポーネントの取り込みと vuex との結合を行います。
+
+store/index.js の追加
+vuex の中核となる store のファイルを記述します。
+
 ```
 import Vue from "vue";
 import Vuex from "vuex";
@@ -149,7 +165,7 @@ const mutations = {
     state.mode = 'devlopment';
   },
   commitModeToPro(state,payload) {
-    state.mode = 'production'; 
+    state.mode = 'production';
   }
 };
 
@@ -176,14 +192,17 @@ export default new Vuex.Store({
 ```
 
 ### 起動
-次のコマンドでブラウザ上でhttp://localhost:8080/ にアクセスしてみて、「Welcome to Vue world」などが出ればOK。
+
+次のコマンドでブラウザ上でhttp://localhost:8080/ にアクセスしてみて、「Welcome to Vue world」などが出れば OK。
+
 ```
 yarn start
 ```
 
 ### おまけ(Vue-Router)
-vue内で様々なリソースにURLを割り当てることで、直接そのリソースにアクセス出来るようVue-Routerを設定します。  
-あらかじめpagesディレクトリに各ページのコンポーネントファイルを置いておきます。今回の場合だと「../pages/top」「../pages/about」が該当します。
+
+vue 内で様々なリソースに URL を割り当てることで、直接そのリソースにアクセス出来るよう Vue-Router を設定します。  
+あらかじめ pages ディレクトリに各ページのコンポーネントファイルを置いておきます。今回の場合だと「../pages/top」「../pages/about」が該当します。
 
 route/index.js
 
@@ -209,8 +228,9 @@ export default new VueRouter({
 ```
 
 App.js
-ルートのtemplateでルーティングのアクセスとそれに伴うビューの表示を行います。  
-router-linkがアクセスする部分で、router-viewがroute/index.jsに紐づけられたコンポーネントを表示する部分です。
+ルートの template でルーティングのアクセスとそれに伴うビューの表示を行います。  
+router-link がアクセスする部分で、router-view が route/index.js に紐づけられたコンポーネントを表示する部分です。
+
 ```
 <template>
   <div class="g-content">
@@ -225,19 +245,28 @@ router-linkがアクセスする部分で、router-viewがroute/index.jsに紐�
 
 index.js
 インデックスファイルに以下の記述を追記します。
+
 ```
 import VueRouter from 'vue-router';
 import route from './route';
 
 Vue.use(VueRouter);
+### 参考 URL
+
+https://github.com/masakitm/vue-nocli
+https://github.com/nabepon/frontend/tree/env-setup-tutorial
+https://ics.media/entry/12140
+https://www.kken.io/posts/prettier-eslint/
 
 new Vue({
   el:'#app',
   store: store,
-  router: route, 
+  router: route,
   render: h => h(App)
 });
 
 ```
+
 ### 起動
+
 この状態で、「yarn start」で起動すると「/」に該当するコンポーネントが表示されます。
