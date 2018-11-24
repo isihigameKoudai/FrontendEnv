@@ -165,50 +165,6 @@ insert_final_newline = true
 trim_trailing_whitespace = false
 ```
 
-### flowtype の設定
-
-flowtype は変数に肩の指定がいらない世界の javascript に型を導入することで、コード内の変数の値の型をチェックすることができます。
-最初に flowtype で使用するパッケージを導入します。
-
-```
-yanr add dev flowtype flow-bin babel-plugin-transform-flow-strip-types
-```
-
-次に以下のコマンドで.flowconfig のファイルを生成します。
-
-```
-flow init
-```
-
-次に.flowconfig のファイルを編集します。
-
-```
-[ignore]
-.*/node_modules/.*
-.*/dest/.*
-
-[include]
-
-[libs]
-./src
-
-[lints]
-
-[options]
-```
-
-それに合わせて、package.json の内容も編集します。
-
-```
-// scriptsに記述
-"flow": "$(npm bin)/flow",
-
-// babelに記述
-"plugins": [
- "babel-plugin-transform-flow-strip-types"
- ]
-```
-
 ### ES6 と ESLint と Prettier
 
 ES6(ECMAscript)と呼ばれる新しいタイプの javascript が使えるようにします。
@@ -230,23 +186,19 @@ yarn add --dev eslint-config-airbnb eslint-plugin-flowtype eslint-plugin-import 
 
 ```
 module.exports = {
-    "parser": "babel-eslint",
-    "extends": [
-      "airbnb",
-      "prettier",
-      "plugin:flowtype/recommended"
-    ],
-    "plugins": [
-      "prettier"
-    ],
-    "rules": {
-      "prettier/prettier": ["error", {
-        "singleQuote": true,
-        "bracketSpacing": true,
-        "jsxBracketSameLine": true
-      }]
-    }
-  };
+  parser: "babel-eslint",
+  extends: ["airbnb", "prettier"],
+  plugins: ["prettier"],
+  rules: {
+    "prettier/prettier": [
+      "error",
+      {
+        singleQuote: true,
+        bracketSpacing: true
+      }
+    ]
+  }
+};
 ```
 
 Lint 用のショートカットコマンドを package.json 内の scripts に追加します。
@@ -261,7 +213,7 @@ Lint 用のショートカットコマンドを package.json 内の scripts に�
 javacsript の新しい書き方は、ブラウザによって認識されない場合があるので認識できる形にトランスパイルしてくれる便利屋さんが babel。
 
 ```
-yarn add --dev babel babel-core babel-eslint babel-loader babel-preset-env babel-preset-stage2
+yarn add --dev @babel/core @babel/preset-env babel-eslint babel-loader
 ```
 
 ### webpack の設定
@@ -273,40 +225,78 @@ webpack-dev-server で開発用サーバーを立ち上げブラウザすぐに�
 yarn add --dev webpack webpack-dev-server webpack-cli
 ```
 
-webpack.config.js の編集
+webpack の編集
+webpack の設定は、production と development のモードを持たせるに当たり、共通用の`base.config.js`、production 用の`prod.config.js`、development 用の`dev.config.js`に分割します。
 
-```
-const path = require('path');
+base.config.js
+
+```js
+const path = require("path");
+
+const BUILD_ROOT = path.join(__dirname, "../dist");
+const SRC_ROOT = path.join(__dirname, "../src");
 
 module.exports = {
-  mode: 'development',
-  entry: [
-    'babel-polyfill',
-    path.resolve('src', 'index.js')
-  ],
+  context: SRC_ROOT,
+  entry: path.resolve("src", "index.js"),
   output: {
-    filename: 'bundle.js',
-    path: path.join(__dirname, 'dest/')
+    filename: "bundle.js",
+    path: BUILD_ROOT
   },
   module: {
     rules: [
       {
         test: /\.js$/,
         exclude: /node_modules/,
-        loader: 'babel-loader',
-      },
+        loader: "babel-loader",
+        options: {
+          presets: ["@babel/preset-env"]
+        }
+      }
     ]
   },
   resolve: {
-    extensions: ['.js','json','jsx'],
+    extensions: [".js", ".jsx", ".json"],
     alias: {
-      vue$: 'vue/dist/vue.esm.js',
-    },
-  },
-  devServer: {
-    contentBase: 'dest',
-  },
+      vue$: "vue/dist/vue.esm.js",
+      "@": path.join(__dirname, "/src/")
+    }
+  }
 };
+
+};
+```
+
+prod.config.js
+
+```js
+const baseConfig = require("./base.config.js");
+let merge = require("webpack-merge");
+
+const config = merge(baseConfig, {
+  mode: "production"
+});
+
+module.exports = config;
+```
+
+dev.config.js
+
+```js
+const baseConfig = require("./base.config.js");
+let merge = require("webpack-merge");
+
+const config = merge(baseConfig, {
+  mode: "development",
+  devtool: "inline-source-map",
+  devServer: {
+    contentBase: "dist",
+    host: "0.0.0.0",
+    port: 3000
+  }
+});
+
+module.exports = config;
 ```
 
 css やその他ファイルも読めるようにしましょう。
@@ -315,9 +305,9 @@ css やその他ファイルも読めるようにしましょう。
 yarn add --dev node-sass css-loader sass-loader style-loader url-loader
 ```
 
-webpack.config.js の rules に loader を追記しましょう。
+base.config.js の rules に loader を追記しましょう。
 
-```
+```js
 {
   test: /\.(css|sass|scss)$/,
   loader: 'sass-loader',
@@ -390,10 +380,10 @@ dest/index.html
 
 ### webpack の起動
 
-以下、コマンドでブラウザ内でhttp://localhost:8080/ にアクセスしてみて、Hello world のメッセージが出れば完成です。
+以下、コマンドでブラウザ内でhttp://localhost:3000/ にアクセスしてみて、Hello world のメッセージが出れば完成です。
 
 ```
-yarn start
+yarn dev
 ```
 
 ### 参考 URL
