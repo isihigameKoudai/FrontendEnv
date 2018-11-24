@@ -1,14 +1,13 @@
-const path = require('path');
-const webpack = require('webpack');
+const path = require("path");
 
-const BUILD_ROOT = path.join(__dirname, '../dest');
-const SRC_ROOT = path.join(__dirname, '../src');
+const BUILD_ROOT = path.join(__dirname, "../dist");
+const SRC_ROOT = path.join(__dirname, "../src");
 
 module.exports = {
   context: SRC_ROOT,
-  entry: path.resolve('src', 'index.js'),
+  entry: path.resolve("src", "index.js"),
   output: {
-    filename: 'bundle.js',
+    filename: "bundle.js",
     path: BUILD_ROOT
   },
   module: {
@@ -16,26 +15,30 @@ module.exports = {
       {
         test: /\.js$/,
         exclude: /node_modules/,
-        loader: 'babel-loader'
+        loader: "babel-loader",
+        options: {
+          presets: ["@babel/preset-env"]
+        }
       },
       {
         test: /\.(css|sass|scss)$/,
-        loader: 'sass-loader',
+        loader: "sass-loader",
         options: {
-          outputStyle: 'expanded',
+          outputStyle: "expanded",
           sourceMap: true
         }
       },
       {
         test: /\.(jpg|png|json|svg)$/,
-        loaders: 'url-loader'
+        loaders: "url-loader"
       }
     ]
   },
   resolve: {
-    extensions: ['.js', '.jsx', '.json'],
+    extensions: [".js", ".jsx", ".json"],
     alias: {
-      vue$: 'vue/dist/vue.esm.js'
+      vue$: "vue/dist/vue.esm.js",
+      "@": path.join(__dirname, "/src/")
     }
   }
 };
