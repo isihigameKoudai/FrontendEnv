@@ -1,4 +1,6 @@
-* {
+*,
+*::before
+*::after {
 	box-sizing: border-box;
 }
 
@@ -6,48 +8,6 @@
 	width: 960px;
 	margin-left: auto;
 	margin-right: auto;
-}
-
-.wrap-cols > *, .cols {
-	display: inline-block;
-}
-.wrap-cols.vaT > *, .cols.vaT { vertical-align: top; }
-.wrap-cols.vaM > *, .cols.vaM { vertical-align: middle; }
-.wrap-cols.vaB > *, .cols.vaB { vertical-align: bottom; }
-
-/* position absolute */
-.abs-center,.abs-right,.abs-top,.abs-bottom,.abs-left {
-	position: absolute;
-}
-
-.abs-center {
-	top: 50%;
-	left: 50%;
-	transform: translate(-50%,-50%);
-}
-
-.abs-left {
-	top: 50%;
-	left: 10px;
-	transform: translateY(-50%);
-}
-
-.abs-right {
-	top: 50%;
-	right: 10px;
-	transform: translateX(-50%);
-}
-
-.abs-top {
-	top: 10px;
-	left: 50%;
-	transform: translateX(-50%);
-}
-
-.abs-bottom {
-	bottom: 10px;
-	left: 50%;
-	transform: translateX(-50%);
 }
 
 /*
