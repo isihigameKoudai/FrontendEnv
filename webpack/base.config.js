@@ -1,4 +1,6 @@
 const path = require("path");
+const webpack = require("webpack");
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 const BUILD_ROOT = path.join(__dirname, "../dist");
 const SRC_ROOT = path.join(__dirname, "../src");
@@ -37,8 +39,10 @@ module.exports = {
   resolve: {
     extensions: [".js", ".jsx", ".json"],
     alias: {
-      vue$: "vue/dist/vue.esm.js",
       "@": path.join(__dirname, "/src/")
     }
-  }
+  },
+  plugins: [
+    new HtmlWebpackPlugin()
+  ]
 };
