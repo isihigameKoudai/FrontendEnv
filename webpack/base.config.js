@@ -1,6 +1,7 @@
 const path = require("path");
 const webpack = require("webpack");
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const ManifestPlugin = require('webpack-manifest-plugin');
 
 const BUILD_ROOT = path.join(__dirname, "../dist");
 const SRC_ROOT = path.join(__dirname, "../src");
@@ -53,6 +54,9 @@ module.exports = {
     }
   },
   plugins: [
+    new ManifestPlugin({
+      fileName: 'manifest.json'
+    }),
     new HtmlWebpackPlugin({
       filename: 'index.html',
       title: manifest.name,
