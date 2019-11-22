@@ -5,6 +5,8 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const BUILD_ROOT = path.join(__dirname, "../dist");
 const SRC_ROOT = path.join(__dirname, "../src");
 
+const manifest = require('../manifest.json');
+
 module.exports = {
   context: SRC_ROOT,
   entry: {
@@ -53,24 +55,24 @@ module.exports = {
   plugins: [
     new HtmlWebpackPlugin({
       filename: 'index.html',
+      title: manifest.name,
       template: SRC_ROOT + '/assets/template/index.html.ejs',
-      title: "sample",
       meta: [
         { charset: "utf-8" },
         {
           name: "viewport",
           content: "width=device-width, initial-scale=1, user-scalable=no"
         },
-        { hid: "description", name: "description", content: "" },
-        { property: 'og:title', content: ''},
+        { hid: "description", name: "description", content: manifest.description },
+        { property: 'og:title', content: manifest.name },
         { property: 'og:type', content: 'website'},
         { property: 'og:image', content: '' },
         { property: 'og:image:alt', content: '' },
-        { property: 'og:url', content: ''},
-        { property: 'og:locale', content: 'ja_JP'},
+        { property: 'og:url', content: '' },
+        { property: 'og:locale', content: 'ja_JP' },
         { name: 'twitter:card', content: 'summary_large_image' },
-        { name: 'twitter:title', content: '' },
-        { name: 'twitter:description', content: '' },
+        { name: 'twitter:title', content: manifest.name },
+        { name: 'twitter:description', content: manifest.description },
         { name: 'twitter:image', content: '' }
       ]
     })
