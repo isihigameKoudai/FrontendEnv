@@ -7,20 +7,28 @@ const SRC_ROOT = path.join(__dirname, "../src");
 
 module.exports = {
   context: SRC_ROOT,
-  entry: path.resolve("src", "index.js"),
+  entry: {
+    index: path.resolve("src", "index.ts")
+  },
   output: {
-    filename: "bundle.js",
+    filename: '[name].js',
     path: BUILD_ROOT
   },
   module: {
     rules: [
       {
-        test: /\.js$/,
+        test: /\.(ts|tsx)$/,
         exclude: /node_modules/,
-        loader: "babel-loader",
-        options: {
-          presets: ["@babel/preset-env"]
-        }
+        use: [
+          { loader: 'cache-loader' },
+          { loader: 'thread-loader' },
+          {
+            loader: 'ts-loader',
+            options: {
+                happyPackMode: true
+            }
+          }
+        ]
       },
       {
         test: /\.(css|sass|scss)$/,
@@ -37,12 +45,34 @@ module.exports = {
     ]
   },
   resolve: {
-    extensions: [".js", ".jsx", ".json"],
+    extensions: [".ts", ".tsx", ".js", ".jsx", ".json"],
     alias: {
-      "@": path.join(__dirname, "/src/")
+      "@": SRC_ROOT + '/'
     }
   },
   plugins: [
-    new HtmlWebpackPlugin()
+    new HtmlWebpackPlugin({
+      filename: 'index.html',
+      template: SRC_ROOT + '/assets/template/index.html.ejs',
+      title: "sample",
+      meta: [
+        { charset: "utf-8" },
+        {
+          name: "viewport",
+          content: "width=device-width, initial-scale=1, user-scalable=no"
+        },
+        { hid: "description", name: "description", content: "" },
+        { property: 'og:title', content: ''},
+        { property: 'og:type', content: 'website'},
+        { property: 'og:image', content: '' },
+        { property: 'og:image:alt', content: '' },
+        { property: 'og:url', content: ''},
+        { property: 'og:locale', content: 'ja_JP'},
+        { name: 'twitter:card', content: 'summary_large_image' },
+        { name: 'twitter:title', content: '' },
+        { name: 'twitter:description', content: '' },
+        { name: 'twitter:image', content: '' }
+      ]
+    })
   ]
 };
