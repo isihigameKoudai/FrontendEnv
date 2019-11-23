@@ -35,15 +35,27 @@ module.exports = {
       },
       {
         test: /\.(css|sass|scss)$/,
-        loader: "sass-loader",
-        options: {
-          outputStyle: "expanded",
-          sourceMap: true
-        }
+        use: [{
+          loader: 'style-loader'
+        },{
+          loader: 'css-loader'
+        },{
+          loader: 'sass-loader',
+          options: {
+            outputStyle: "expanded",
+            sourceMap: true
+          }
+        }]
       },
       {
-        test: /\.(jpg|png|json|svg)$/,
-        loaders: "url-loader"
+        test: /\.(jpe?g|png|gif|svg|ico)(\?.+)?$/,
+        use: [{
+          loader: "url-loader",
+          options: {
+            limit: 4096,
+            name: '[path][name].[ext]'
+          }
+        }]
       }
     ]
   },

@@ -1,0 +1,10 @@
+:root {
+  --brand-color: #333;
+}
+
+$brand_red: #e00;
+
+#app {
+  color: $brand_red;
+  background: var(--brand-color);
+}
