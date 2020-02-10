@@ -1,17 +1,29 @@
 import * as path from 'path';
 import * as webpack from 'webpack';
+import * as glob from 'glob';
 import * as HtmlWebpackPlugin from 'html-webpack-plugin';
 import * as ManifestPlugin from 'webpack-manifest-plugin';
 
-const BUILD_ROOT = path.join(__dirname, "../dist");
-const SRC_ROOT = path.join(__dirname, "../src");
+const BUILD_ROOT: string = path.join(__dirname, "../dist");
+const SRC_ROOT: string = path.join(__dirname, "../src");
 const manifest = require('../manifest.json');
+
+const getEntries = (srcDir = './src') => {
+  const entries = {};
+  glob.sync(`*.ts`, {
+    ignore: '**/_*.ts',
+    cwd: srcDir
+  }).map(key => {
+    const entryName: string = key.substr(0, key.indexOf('.'));
+    entries[entryName] = path.resolve(srcDir, key);
+  });
+
+  return entries;
+};
 
 export const config: webpack.Configuration = {
   context: SRC_ROOT,
-  entry: {
-    index: path.resolve("src", "index.ts")
-  },
+  entry: getEntries(),
   output: {
     filename: '[name].js',
     path: BUILD_ROOT
