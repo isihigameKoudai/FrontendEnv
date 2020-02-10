@@ -65,6 +65,9 @@ module.exports = {
       "@": SRC_ROOT + '/'
     }
   },
+  // optimaization: {
+  //   splitChunks: {}
+  // },
   plugins: [
     new ManifestPlugin({
       fileName: 'manifest.json'
