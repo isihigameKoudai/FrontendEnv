@@ -11,7 +11,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "webpack-dev-server --config ./webpack/dev.config.ts --hot",
     "dev:gen": "npm run build && cd dist && python -m SimpleHTTPServer",
-    "build": "webpack --mode production --config ./webpack/prod.config.ts",
+    "build": "rm -rf ./dist && webpack --mode production --config ./webpack/prod.config.ts",
     "start": "webpack-dev-server --config ./webpack/prod.config.ts --host 0.0.0.0"
   },
   "devDependencies": {

@@ -64,9 +64,19 @@ export const config: webpack.Configuration = {
       "@": SRC_ROOT + '/'
     }
   },
-  // optimaization: {
-  //   splitChunks: {}
-  // },
+  optimization: {
+    splitChunks: {
+      chunks: 'all',
+      name ( module, chunks, cacheGroupKey ) {
+        const moduleFileName = module.identifier().split('/').reduceRight(item => item);
+        const allChunksNames = chunks.map((item) => item.name).join('~');
+        return `${cacheGroupKey}-${allChunksNames}`;
+      }
+    },
+    runtimeChunk: {
+      name: 'runtime'
+    }
+  },
   plugins: [
     new ManifestPlugin({
       fileName: 'manifest.json'
