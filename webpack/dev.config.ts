@@ -1,7 +1,8 @@
-const baseConfig = require("./base.config.ts");
-let merge = require("webpack-merge");
+import { Configuration } from 'webpack';
+import * as merge from 'webpack-merge';
+import { config as baseConfig } from './base.config';
 
-const config = merge(baseConfig, {
+const config: Configuration = merge(baseConfig, {
   mode: "development",
   devtool: "inline-source-map",
   devServer: {
@@ -11,4 +12,5 @@ const config = merge(baseConfig, {
   }
 });
 
-module.exports = config;
+export default config;
+

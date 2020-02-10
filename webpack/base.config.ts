@@ -1,14 +1,13 @@
-const path = require("path");
-const webpack = require("webpack");
-const HtmlWebpackPlugin = require('html-webpack-plugin');
-const ManifestPlugin = require('webpack-manifest-plugin');
+import * as path from 'path';
+import * as webpack from 'webpack';
+import * as HtmlWebpackPlugin from 'html-webpack-plugin';
+import * as ManifestPlugin from 'webpack-manifest-plugin';
 
 const BUILD_ROOT = path.join(__dirname, "../dist");
 const SRC_ROOT = path.join(__dirname, "../src");
-
 const manifest = require('../manifest.json');
 
-module.exports = {
+export const config: webpack.Configuration = {
   context: SRC_ROOT,
   entry: {
     index: path.resolve("src", "index.ts")
