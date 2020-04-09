@@ -3,14 +3,18 @@
     "sourceMap": true,
     "target": "esnext",
     "module": "umd",
-    "allowJs": false,
+    "allowJs": true,
     "strict": true,
     "noImplicitAny": false,
     "noImplicitThis": false,
     "alwaysStrict": false,
     "strictBindCallApply": false,
     "strictNullChecks": true,
-    "strictFunctinTypes": false
+    "moduleResolution": "node",
+    "esModuleInterop": true,
+    "types": [
+      "@types/webpack"
+    ]
   },
   "files": ["./src/types/window/index.d.ts"],
   "include": [
@@ -18,7 +22,8 @@
   ],
   "exclude": [
     "node_modules",
-    "**/*.spec.ts"
+    "**/*.spec.ts",
+    "webpack"
   ]
 }
 
