@@ -1,8 +1,18 @@
 {
   "compilerOptions": {
     "sourceMap": true,
-    "target": "es5"
+    "target": "esnext",
+    "module": "umd",
+    "allowJs": false,
+    "strict": true,
+    "noImplicitAny": false,
+    "noImplicitThis": false,
+    "alwaysStrict": false,
+    "strictBindCallApply": false,
+    "strictNullChecks": true,
+    "strictFunctinTypes": tru
   },
+  "files": ["./src/types/window/index.d.ts"],
   "include": [
     "src/**/*"
   ],
