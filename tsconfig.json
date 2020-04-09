@@ -10,7 +10,7 @@
     "alwaysStrict": false,
     "strictBindCallApply": false,
     "strictNullChecks": true,
-    "strictFunctinTypes": tru
+    "strictFunctinTypes": false
   },
   "files": ["./src/types/window/index.d.ts"],
   "include": [
