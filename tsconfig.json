@@ -1,14 +1,29 @@
 {
   "compilerOptions": {
     "sourceMap": true,
-    "target": "es5"
+    "target": "esnext",
+    "module": "umd",
+    "allowJs": true,
+    "strict": true,
+    "noImplicitAny": false,
+    "noImplicitThis": false,
+    "alwaysStrict": false,
+    "strictBindCallApply": false,
+    "strictNullChecks": true,
+    "moduleResolution": "node",
+    "esModuleInterop": true,
+    "types": [
+      "@types/webpack"
+    ]
   },
+  "files": ["./src/types/window/index.d.ts"],
   "include": [
     "src/**/*"
   ],
   "exclude": [
     "node_modules",
-    "**/*.spec.ts"
+    "**/*.spec.ts",
+    "webpack"
   ]
 }
 

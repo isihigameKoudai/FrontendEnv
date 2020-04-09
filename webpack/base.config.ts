@@ -1,8 +1,8 @@
 import * as path from 'path';
-import * as webpack from 'webpack';
+import { Configuration } from 'webpack';
 import * as glob from 'glob';
-import * as HtmlWebpackPlugin from 'html-webpack-plugin';
-import * as ManifestPlugin from 'webpack-manifest-plugin';
+import HtmlWebpackPlugin from 'html-webpack-plugin';
+import ManifestPlugin from 'webpack-manifest-plugin';
 
 const BUILD_ROOT: string = path.join(__dirname, "../dist");
 const SRC_ROOT: string = path.join(__dirname, "../src");
@@ -21,7 +21,7 @@ const getEntries = (srcDir = './src') => {
   return entries;
 };
 
-export const config: webpack.Configuration = {
+export const config: Configuration = {
   context: SRC_ROOT,
   entry: getEntries(),
   output: {
@@ -72,6 +72,7 @@ export const config: webpack.Configuration = {
   },
   resolve: {
     extensions: [".ts", ".tsx", ".js", ".jsx", ".json"],
+    modules: [SRC_ROOT, 'node_modules'],
     alias: {
       "@": SRC_ROOT + '/'
     }
@@ -95,26 +96,22 @@ export const config: webpack.Configuration = {
     }),
     new HtmlWebpackPlugin({
       filename: 'index.html',
-      title: manifest.name,
+      title: manifest.name || 'FrontEndEnv',
       template: SRC_ROOT + '/assets/template/index.html.ejs',
-      meta: [
-        { charset: "utf-8" },
-        {
-          name: "viewport",
-          content: "width=device-width, initial-scale=1, user-scalable=no"
-        },
-        { hid: "description", name: "description", content: manifest.description },
-        { property: 'og:title', content: manifest.name },
-        { property: 'og:type', content: 'website'},
-        { property: 'og:image', content: '' },
-        { property: 'og:image:alt', content: '' },
-        { property: 'og:url', content: '' },
-        { property: 'og:locale', content: 'ja_JP' },
-        { name: 'twitter:card', content: 'summary_large_image' },
-        { name: 'twitter:title', content: manifest.name },
-        { name: 'twitter:description', content: manifest.description },
-        { name: 'twitter:image', content: '' }
-      ]
+      meta: {
+        viewport: "width=device-width, initial-scale=1",
+        description: manifest.description,
+        'og:title': manifest.name,
+        'og:type': 'website',
+        'og:image': '',
+        'og:image:alt': '',
+        'og:url': '',
+        'og:locale': 'ja_JP',
+        'twitter:card': 'summary_large_image',
+        'twitter:title': manifest.name,
+        'twitter:description': manifest.description,
+        'twitter:image': ''
+      }
     })
   ]
 };
