@@ -1,6 +1,11 @@
-import { Configuration } from 'webpack';
+import { Configuration as WebpackConfiguration } from "webpack";
+import { Configuration as WebpackDevServerConfiguration } from "webpack-dev-server";
 import merge from 'webpack-merge';
 import { config as baseConfig } from './base.config';
+
+interface Configuration extends WebpackConfiguration {
+  devServer?: WebpackDevServerConfiguration;
+}
 
 const config: Configuration = merge(baseConfig, {
   mode: "development",

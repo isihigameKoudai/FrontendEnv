@@ -2,7 +2,7 @@ import * as path from "path";
 import { Configuration } from "webpack";
 import * as glob from "glob";
 import HtmlWebpackPlugin from "html-webpack-plugin";
-import ManifestPlugin from "webpack-manifest-plugin";
+import { WebpackManifestPlugin  } from "webpack-manifest-plugin";
 
 const BUILD_ROOT: string = path.join(__dirname, "../dist");
 const SRC_ROOT: string = path.join(__dirname, "../src");
@@ -95,7 +95,7 @@ export const config: Configuration = {
     },
   },
   plugins: [
-    new ManifestPlugin({
+    new WebpackManifestPlugin({
       fileName: "manifest.json",
     }),
     new HtmlWebpackPlugin({
